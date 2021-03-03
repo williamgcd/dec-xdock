@@ -1,0 +1,7 @@
+{
+  "name": "dec-xdock",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
