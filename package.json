@@ -19,6 +19,7 @@
     "@types/react-dom": "^16.9.10",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "cordova-honeywell-plugin": "^1.0.5",
     "firebase": "^8.2.9",
     "ionicons": "^5.5.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
