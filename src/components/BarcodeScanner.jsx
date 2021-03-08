@@ -1,61 +1,45 @@
-import { useState } from 'react';
-import { BarcodeScanner as BCS } from '@ionic-native/barcode-scanner';
-import { Plugins, CameraResultType } from '@capacitor/core';
+import { IonButton, IonModal } from '@ionic/react';
+import { useEffect, useState } from 'react';
 
-import { IonButton } from '@ionic/react';
+import { useBarcodeScanner } from '../hooks/useBarcodeScanner';
 
-const { Camera } = Plugins;
+import { BarcodeScannerForm } from './BarcodeScannerForm';
+import * as S from './BarcodeScannner.styles';
 
-export const BarcodeScanner = () => {
-   const [cam, setCam] = useState();
-   const [bcs, setBCS] = useState();
+export const BarcodeScanner = ({ onMatch }) => {
+   const barcode = useBarcodeScanner();
 
-   const openScanner = async () => {
-      const data = await BCS.scan();
-      setBCS(data);
-      console.log(`Barcode data: ${data.text}`);
+   const handleSubmit = (code) => {
+      onMatch(code);
+      barcode.setModal(false);
    };
 
-   const getPicture = async () => {
-      const data = await Camera.getPicture();
-      setCam(data);
-      console.log(`Barcode data: ${data.text}`);
-   };
-
-   async function takePicture() {
-      const image = await Camera.getPhoto({
-         quality: 90,
-         allowEditing: true,
-         resultType: CameraResultType.Uri,
-      });
-      // image.webPath will contain a path that can be set as an image src.
-      // You can access the original file using image.path, which can be
-      // passed to the Filesystem API to read the raw data of the image,
-      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-      var imageUrl = image.webPath;
-      // Can be set to the src of an image now
-      setCam(imageUrl);
-   }
-
-   try {
-      window.plugins.honeywell.listen(
-         (data) => {
-            setBCS(data);
-         },
-         (error) => {
-            console.log('Error occured: ' + error);
-         }
-      );
-   } catch (err) {
-      console.log(err);
-   }
+   useEffect(() => {
+      if (!barcode.code) return;
+      onMatch(barcode.code);
+   }, [barcode.code, onMatch]);
 
    return (
       <>
-         <IonButton onClick={openScanner}>Scan barcode</IonButton>
-         <IonButton onClick={takePicture}>Camera</IonButton>
-         {cam && JSON.stringify(cam)}
-         {bcs && JSON.stringify(bcs)}
+         <IonButton color="danger" onClick={barcode.trigger}>
+            Scan barcode
+         </IonButton>
+
+         <S.Modal as={IonModal} isOpen={barcode.modal}>
+            <div>
+               Não foi possível aconar o scanner no seu dispositivo, por favor insira o
+               código de barras manualmente no campo abaixo.
+               <BarcodeScannerForm onSubmit={handleSubmit} />
+            </div>
+
+            <IonButton
+               color="danger"
+               fill="outline"
+               onClick={() => barcode.setModal(false)}
+            >
+               Cancelar
+            </IonButton>
+         </S.Modal>
       </>
    );
 };
