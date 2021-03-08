@@ -1,6 +1,6 @@
 import { IonButton } from '@ionic/react';
 import { useCallback, useState } from 'react';
-import { useCollectionOnce, useDocumentData } from 'react-firebase-hooks/firestore';
+import { useCollectionOnce } from 'react-firebase-hooks/firestore';
 
 import { BarcodeScanner } from '../../components/BarcodeScanner';
 import { db } from '../../firebase';
@@ -85,9 +85,11 @@ export const PickingScan = () => {
          {code === undefined && <BarcodeScanner onMatch={handleCode} />}
          {code !== undefined && <BarcodeScanner onMatch={handleCage} />}
 
-         <IonButton fill="clear" onClick={handleFinish}>
-            Limpar Código
-         </IonButton>
+         {code !== undefined && (
+            <IonButton fill="clear" onClick={handleFinish}>
+               Limpar Código
+            </IonButton>
+         )}
       </S.PickingScan>
    );
 };
