@@ -55,7 +55,7 @@ export const PickingContextProvider = (props) => {
             return data.status === 'F';
          }).length;
 
-         return Number((fin / tot).toFixed(2));
+         return fin / tot;
       },
 
       putVolume: (volumeId, params) => {

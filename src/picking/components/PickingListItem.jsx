@@ -11,7 +11,7 @@ export const PickingListItem = ({ item }) => {
 
    const doc = item.data();
 
-   const buttons = [
+   let buttons = [
       {
          text: 'Colocar volume "Em trânsito"',
          handler: async () => {
@@ -20,16 +20,21 @@ export const PickingListItem = ({ item }) => {
       },
       {
          text: 'Colocar volume como "Pendente"',
-         role: 'destructive',
          handler: async () => {
             return await putVolume(item.id, { status: 'P' });
          },
       },
       {
          text: 'Colocar volume como "Finalizado"',
-         role: 'destructive',
          handler: async () => {
             return await putVolume(item.id, { status: 'F' });
+         },
+      },
+      {
+         text: 'REPORTAR ERRO',
+         role: 'destructive',
+         handler: async () => {
+            return await putVolume(item.id, { status: 'E' });
          },
       },
    ];

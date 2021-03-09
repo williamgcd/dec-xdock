@@ -1,13 +1,16 @@
 import { useContext } from 'react';
-import { IonLabel, IonListHeader } from '@ionic/react';
+import { IonBadge, IonLabel, IonListHeader } from '@ionic/react';
 
 import { PickingContext } from '../PickingContext';
 
 import { PickingListItem } from './PickingListItem';
 import * as S from './PickingList.styles';
 
-export const PickingListTitle = ({ children }) => (
-   <S.PickingListTitle>{children}</S.PickingListTitle>
+export const PickingListTitle = ({ children, items }) => (
+   <S.PickingListTitle>
+      <span className="text">{children}</span>
+      <IonBadge>{items.length}</IonBadge>
+   </S.PickingListTitle>
 );
 
 export const PickingListItems = ({ items }) =>
@@ -29,13 +32,13 @@ export const PickingList = () => {
 
    return (
       <S.PickingList>
-         <PickingListTitle>Pendentes:</PickingListTitle>
+         <PickingListTitle items={statusP}>Pendentes</PickingListTitle>
          <PickingListItems items={statusP} />
 
-         <PickingListTitle>Em trânsito:</PickingListTitle>
+         <PickingListTitle items={statusL}>Em trânsito</PickingListTitle>
          <PickingListItems items={statusL} />
 
-         <PickingListTitle>Finalizados:</PickingListTitle>
+         <PickingListTitle items={statusF}>Finalizados</PickingListTitle>
          <PickingListItems items={statusF} />
       </S.PickingList>
    );
