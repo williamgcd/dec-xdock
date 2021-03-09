@@ -38,7 +38,7 @@ export const PickingListItem = ({ item }) => {
       <S.PickingListItem onClick={() => setOpen(true)}>
          <span className="text">{doc.codBarras}</span>
          <IonIcon color="danger" icon={arrowForwardOutline} />
-         <span className="text">{doc.idRota}</span>
+         <span className="text">{doc.rota}</span>
          <IonIcon color="dark" icon={optionsOutline} />
 
          <IonActionSheet
