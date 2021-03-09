@@ -1,2 +1,0 @@
-(this["webpackJsonpdec-xdock"]=this["webpackJsonpdec-xdock"]||[]).push([[53],{168:function(n,t,e){"use strict";e.r(t),e.d(t,"startStatusTap",(function(){return c}));var o=e(17),c=function(){var n=window;n.addEventListener("statusTap",(function(){Object(o.h)((function(){var t=n.innerWidth,e=n.innerHeight,c=document.elementFromPoint(t/2,e/2);if(c){var i=c.closest("ion-content");i&&i.componentOnReady().then((function(){Object(o.f)((function(){return i.scrollToTop(300)}))}))}}))}))}}}]);
-//# sourceMappingURL=53.832c7bb3.chunk.js.map
