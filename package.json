@@ -5,7 +5,6 @@
   "dependencies": {
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "2.4.7",
-    "@dutchconcepts/capacitor-barcode-scanner": "^1.1.1",
     "@ionic-native/barcode-scanner": "^5.31.1",
     "@ionic-native/camera": "^5.31.1",
     "@ionic-native/core": "^5.31.1",
