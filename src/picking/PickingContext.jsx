@@ -29,6 +29,7 @@ export const PickingContextProvider = (props) => {
          let vol = filtered[0];
 
          if (!vol?.data()) {
+            vol = undefined;
             setAlerts('Documento não encontrado.');
          } else if (vol.data().status === 'L') {
             vol = undefined;

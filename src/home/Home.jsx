@@ -1,52 +1,67 @@
-import { IonButton, IonContent, IonPage } from '@ionic/react';
+import { IonButton, IonContent, IonPage, IonSpinner, useIonRouter } from '@ionic/react';
+import { useEffect, useState } from 'react';
 
 import logo from '../images/logo-dec.png';
 import * as S from './Home.styles';
 
-export const Home = () => (
-   <S.Home as={IonPage}>
-      <IonContent>
-         <div className="container">
-            <img src={logo} alt="Logotipo D&amp;C Cargas e Logística" />
+export const Home = () => {
+   const history = useIonRouter();
+   const [lp, setLP] = useState(false);
 
-            <br />
+   useEffect(() => {
+      if (!lp) return;
+      history.push('/picking');
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [lp]);
 
-            <IonButton
-               color="danger"
-               disabled={true}
-               fill="solid"
-               expand="block"
-               size="large"
-               routerLink="/picking"
-            >
-               Coleta
-            </IonButton>
+   return (
+      <S.Home as={IonPage}>
+         <IonContent>
+            <div className="container">
+               <img src={logo} alt="Logotipo D&amp;C Cargas e Logística" />
 
-            <br />
+               <br />
 
-            <IonButton
-               color="danger"
-               fill="solid"
-               expand="block"
-               size="large"
-               routerLink="/picking"
-            >
-               Picking
-            </IonButton>
+               <IonButton
+                  color="danger"
+                  disabled={true}
+                  fill="solid"
+                  expand="block"
+                  size="large"
+                  routerLink="/picking"
+               >
+                  Coleta
+               </IonButton>
 
-            <br />
+               <br />
 
-            <IonButton
-               color="danger"
-               disabled={true}
-               fill="solid"
-               expand="block"
-               size="large"
-               routerLink="/picking"
-            >
-               Expedição
-            </IonButton>
-         </div>
-      </IonContent>
-   </S.Home>
-);
+               <IonButton
+                  color="danger"
+                  disabled={lp}
+                  fill="solid"
+                  expand="block"
+                  size="large"
+                  onClick={() => {
+                     setLP(true);
+                  }}
+               >
+                  {!lp ? 'Picking' : <IonSpinner name="dots" />}
+               </IonButton>
+
+               <br />
+
+               <IonButton
+                  color="danger"
+                  disabled={true}
+                  fill="solid"
+                  expand="block"
+                  size="large"
+                  routerLink="/picking"
+               >
+                  Expedição
+               </IonButton>
+            </div>
+         </IonContent>
+      </S.Home>
+   );
+};

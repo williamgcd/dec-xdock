@@ -17,7 +17,9 @@ export const BarcodeScanner = ({ onMatch }) => {
    useEffect(() => {
       if (!barcode.code) return;
       onMatch(barcode.code);
-   }, [barcode.code, onMatch]);
+      barcode.setCode();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [barcode.code]);
 
    return (
       <>

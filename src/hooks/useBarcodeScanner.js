@@ -9,8 +9,7 @@ export function useBarcodeScanner() {
    const triggerCordova = async () => {
       try {
          const data = await BarcodeScanner.scan();
-         alert(`Cordova ${JSON.stringify(data)}`);
-         setCode(data);
+         setCode(data.text);
       } catch (err) {
          setModal(true);
       }
@@ -18,20 +17,20 @@ export function useBarcodeScanner() {
 
    const trigger = async () => {
       console.log('useBarcodeScanner', 'Triggered!');
-      try {
-         window.plugins.honeywell.softwareTriggerStart((data) => {
-            alert(`Trigger ${JSON.stringify(data)}`);
-            setCode(data);
-         });
-      } catch (err) {
-         triggerCordova();
-      }
+      triggerCordova();
+      // try {
+      //    window.plugins.honeywell.softwareTriggerStart((data) => {
+      //       alert(`Trigger ${JSON.stringify(data)}`);
+      //       setCode(data);
+      //    });
+      // } catch (err) {
+      //    triggerCordova();
+      // }
    };
 
    useEffect(() => {
       try {
          window.plugins.honeywell.listen((data) => {
-            alert(`Honeywell ${JSON.stringify(data)}`);
             setCode(data);
          });
          return () => window.plugins.honeywell.release();
