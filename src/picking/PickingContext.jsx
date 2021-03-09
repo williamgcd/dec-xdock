@@ -28,7 +28,7 @@ export const PickingContextProvider = (props) => {
 
          let vol = filtered[0];
 
-         if (!vol) {
+         if (!vol?.data()) {
             setAlerts('Documento não encontrado.');
          } else if (vol.data().status === 'L') {
             vol = undefined;
@@ -40,7 +40,6 @@ export const PickingContextProvider = (props) => {
 
          // Update the Volume if is valid
          if (vol?.id) {
-            console.log(vol);
             db.doc(`volumes/${vol.id}`).set({ status: 'L' }, { merge: true });
          }
 
