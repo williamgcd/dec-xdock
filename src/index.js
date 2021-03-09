@@ -7,7 +7,7 @@ import App from './app/App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-setupConfig({ mode: 'md' });
+setupConfig({ mode: 'ios' });
 
 ReactDOM.render(
    <React.StrictMode>

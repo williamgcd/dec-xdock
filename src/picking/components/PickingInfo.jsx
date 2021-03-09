@@ -1,24 +1,41 @@
-import { useEffect, useState } from 'react';
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { IonButton } from '@ionic/react';
+import { useContext } from 'react';
+import { BarcodeScanner } from '../../components/BarcodeScanner';
 
-import { db } from '../../firebase';
+import { PickingContext } from '../PickingContext';
 import * as S from './PickingInfo.styles';
 
-export const PickingInfo = ({ code, document, onFinish }) => {
-   const [volume, loading, error] = useDocumentData(
-      db.doc(`picking/${document?.id}/volumes/${code}`)
-   );
+const PickingInfoHolder = (props) => (
+   <S.PickingInfo>
+      <S.PickingInfoContent>{props.children}</S.PickingInfoContent>
+   </S.PickingInfo>
+);
 
-   return error || loading || !volume ? (
-      <S.PickingInfo>
-         {error && <strong>{JSON.stringify(error)}</strong>}
-         {loading && <strong>Loading...</strong>}
-      </S.PickingInfo>
+export const PickingInfo = () => {
+   const ctxt = useContext(PickingContext);
+   const doc = ctxt.volume?.data();
+
+   const handleCage = (code) => {
+      ctxt.putVolumeInRoute(code);
+   };
+   const handleCode = (code) => {
+      ctxt.getVolumeByBarcode(code);
+   };
+
+   return !doc ? (
+      <PickingInfoHolder>
+         <BarcodeScanner onMatch={handleCode} />
+      </PickingInfoHolder>
    ) : (
-      <S.PickingInfo>
-         <h6>Cód.: {code}</h6>
-         <h6>Rota: {volume.idRota}</h6>
-         <h1>{volume.rota}</h1>
-      </S.PickingInfo>
+      <PickingInfoHolder>
+         <h6>{doc.codBarras}</h6>
+         <h1>{doc.rota}</h1>
+
+         <BarcodeScanner onMatch={handleCage} />
+
+         <IonButton fill="clear" size="small" onClick={() => ctxt.setVolume()}>
+            <span className="text">Limpar código de barras</span>
+         </IonButton>
+      </PickingInfoHolder>
    );
 };

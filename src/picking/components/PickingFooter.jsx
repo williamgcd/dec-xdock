@@ -1,17 +1,33 @@
-import { IonButton, IonButtons, IonToolbar } from '@ionic/react';
-import { PickingProgressBar } from './PickingProgressBar';
+import { useContext, useState } from 'react';
+import { IonButton } from '@ionic/react';
 
-export const PickingFooter = () => (
-   <div className="PickingFooter">
-      <PickingProgressBar />
+import { PickingContext } from '../PickingContext';
 
-      <IonToolbar>
-         <IonButtons slot="start">
-            <IonButton routerLink="/picking/list">Volumes</IonButton>
-         </IonButtons>
-         <IonButtons slot="end">
-            <IonButton routerLink="/picking/finish">Finalizar</IonButton>
-         </IonButtons>
-      </IonToolbar>
-   </div>
-);
+import { PickingFooterBar } from './PickingFooterBar';
+import * as S from './PickingFooter.styles';
+
+export const PickingFooter = () => {
+   const { getVolumesPercentage, finish } = useContext(PickingContext);
+   const [finishing, setFinishing] = useState(false);
+
+   const value = getVolumesPercentage();
+
+   const handleFinishing = () => {
+      setFinishing(true);
+      finish().then(() => setFinishing(false));
+   };
+
+   return (
+      <S.PickingFooter>
+         <PickingFooterBar value={value} />
+
+         <IonButton
+            color="danger"
+            disabled={finishing || value !== 1}
+            onClick={handleFinishing}
+         >
+            <span className="text">Finalizar</span>
+         </IonButton>
+      </S.PickingFooter>
+   );
+};
