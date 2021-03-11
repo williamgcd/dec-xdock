@@ -11,6 +11,8 @@ export const Home = () => {
    useEffect(() => {
       if (!lp) return;
       history.push('/picking');
+      let timeout = setTimeout(() => setLP(false), 1000);
+      return () => clearTimeout(timeout);
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [lp]);
 

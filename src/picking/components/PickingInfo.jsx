@@ -32,10 +32,6 @@ export const PickingInfo = () => {
          <h1>{doc.rota}</h1>
 
          <BarcodeScanner onMatch={handleCage} />
-
-         <IonButton fill="clear" size="small" onClick={() => ctxt.setVolume()}>
-            <span className="text">Limpar código de barras</span>
-         </IonButton>
       </PickingInfoHolder>
    );
 };

@@ -24,5 +24,5 @@ export const Percentage = styled.div`
    position: absolute;
    top: 0;
    right: 0;
-   text-shadow: 1px 1px rgba(0, 0, 0, 0.25);
+   text-shadow: 1px 1px rgba(255, 255, 255, 0.25);
 `;

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { IonBadge, IonLabel, IonListHeader } from '@ionic/react';
+import { IonBadge, IonLabel, IonListHeader, IonSegment } from '@ionic/react';
 
 import { PickingContext } from '../PickingContext';
 

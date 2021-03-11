@@ -89,7 +89,7 @@ export const PickingContextProvider = (props) => {
 
          const notFinished = vols.docs.filter((doc) => {
             const data = doc.data();
-            return data.status !== 'F';
+            return data.status !== 'F' && data.status !== 'E';
          });
 
          if (notFinished.length) {

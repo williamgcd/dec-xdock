@@ -27,9 +27,13 @@ export const BarcodeScanner = ({ onMatch }) => {
             Scan barcode
          </IonButton>
 
-         <S.Modal as={IonModal} isOpen={barcode.modal}>
+         <S.Modal
+            as={IonModal}
+            isOpen={barcode.modal}
+            onDidDismiss={() => barcode.setModal(false)}
+         >
             <div>
-               Não foi possível aconar o scanner no seu dispositivo, por favor insira o
+               Não foi possível acionar o scanner no seu dispositivo, por favor insira o
                código de barras manualmente no campo abaixo.
                <BarcodeScannerForm onSubmit={handleSubmit} />
             </div>

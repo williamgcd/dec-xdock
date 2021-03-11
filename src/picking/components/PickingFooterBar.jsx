@@ -14,7 +14,7 @@ export const PickingFooterBar = ({ value }) => {
          {[...Array(21).keys()].map((i) => (
             <IonProgressBar key={`pbar-${i}`} {...pbProps} />
          ))}
-         <S.Percentage>{`${(value * 100).toFixed(2)}%`}</S.Percentage>
+         <S.Percentage>{`${(value * 100).toFixed(0)}%`}</S.Percentage>
       </S.PickingFooterBar>
    );
 };

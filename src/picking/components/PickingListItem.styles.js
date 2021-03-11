@@ -13,6 +13,22 @@ export const PickingListItem = styled.button.attrs({
    text-align: center;
    width: 100%;
 
+   .code {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+   }
+   .code .sm {
+      display: block;
+      font-size: 0.725rem;
+      margin-top: 0.25rem;
+   }
+   .code .lg {
+      color: var(--ion-color-danger);
+      font-size: 1rem;
+      font-weight: 700;
+   }
+
    .text {
       display: inline-block;
       min-width: 80px;
@@ -32,5 +48,12 @@ export const PickingListItem = styled.button.attrs({
       ion-badge {
          opacity: 1;
       }
+   }
+`;
+
+export const Modal = styled.div`
+   .ion-page {
+      padding: 3rem;
+      justify-content: flex-start;
    }
 `;
