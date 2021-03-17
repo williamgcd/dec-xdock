@@ -52,7 +52,7 @@ export const Document = () => {
    const handleFinish = () => {
       db.doc(`picking/${doc}`)
          .set({ status: 'F', data: new Date().toISOString() }, { merge: true })
-         .then(() => history.push('/c'))
+         .then(() => history.push('/p'))
          .catch((e) => setAlert(e));
    };
 
@@ -85,7 +85,16 @@ export const Document = () => {
       onDidDismiss: () => setToast(),
    };
 
-   return (
+   return documentData?.status !== 'P' ? (
+      <GenericPage>
+         <IonText>
+            <h1 className="h1">Picking: {doc}</h1>
+            <h2 className="h2">Status atual deste documento: {status.toUpperCase()}.</h2>
+         </IonText>
+
+         <h3 className="h3">Não é mais possível alterar este documento.</h3>
+      </GenericPage>
+   ) : (
       <IonPage className="PickingDocument">
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
