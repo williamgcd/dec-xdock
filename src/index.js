@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { setupConfig } from '@ionic/react';
 
-import App from './app/App';
+import './config/firebase';
+import App from './app';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 
-setupConfig({ mode: 'ios' });
+setupConfig({ mode: 'md' });
 
 ReactDOM.render(
    <React.StrictMode>

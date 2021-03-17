@@ -1,0 +1,42 @@
+import { useEffect, useState } from 'react';
+import { IonModal } from '@ionic/react';
+
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
+import { Button } from '../button';
+import { ScannerForm } from './scanner-form';
+
+export const Scanner = ({ onMatch }) => {
+   const [modal, setModal] = useState(false);
+
+   const handleClick = async () => {
+      try {
+         onMatch(await BarcodeScanner.scan());
+      } catch (_err) {
+         setModal(true);
+      }
+   };
+
+   const handleSubmit = (formCode) => {
+      onMatch(formCode);
+      setModal(false);
+   };
+
+   useEffect(() => {
+      try {
+         window.plugins.honeywell.listen((c) => onMatch(c));
+         return () => window.plugins.honeywell.release();
+      } catch (_err) {}
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
+
+   return (
+      <>
+         <Button onClick={handleClick}>Scan barcode</Button>
+
+         <IonModal isOpen={modal} onDidDismiss={() => setModal(false)}>
+            <ScannerForm onSubmit={handleSubmit} />
+         </IonModal>
+      </>
+   );
+};

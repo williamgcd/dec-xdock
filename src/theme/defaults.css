@@ -1,0 +1,31 @@
+html,
+body {
+   font-family: var(--ion-font-family);
+}
+
+.h1 {
+   font-size: 1.725rem;
+   font-weight: 900;
+   letter-spacing: -0.025em;
+   line-height: 1.2;
+   margin: 0;
+   text-transform: uppercase;
+}
+
+.h2 {
+   font-size: 1.25rem;
+   line-height: 1.3;
+   margin: 0;
+}
+.h1 + .h2 {
+   margin-top: 0.5rem;
+}
+
+.h4 {
+   font-size: 0.875rem;
+   font-weight: 700;
+   text-transform: uppercase;
+}
+.h1 + .h4 {
+   margin-top: 2rem;
+}
