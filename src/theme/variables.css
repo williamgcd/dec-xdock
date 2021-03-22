@@ -85,8 +85,8 @@ ion-content {
 }
 
 ion-back-button {
-   width: 48px;
    transform: translate(-10px, -10px);
+   width: 48px;
 }
 
 .container {
