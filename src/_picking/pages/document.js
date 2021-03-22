@@ -41,6 +41,9 @@ export const Document = () => {
    const handleMatchCode = (code) => {
       if (!code) return;
 
+      alert(`handleMatchCode: ${code}`);
+      console.log(volumes.docs);
+
       getVolumeByBarcode(code, volumes)
          .then(async (volume) => {
             await db
@@ -108,9 +111,9 @@ export const Document = () => {
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
 
-         <IonBackButton defaultHref={`/p`} />
-
          <GenericContent>
+            <IonBackButton defaultHref={`/p/${doc}`} />
+
             <IonText>
                <h1 className="h1">Picking: {doc}</h1>
                <h2 className="h2">
@@ -122,8 +125,10 @@ export const Document = () => {
                <GenericArea>
                   <h3 className="h1">{volume.data().rota}</h3>
                   <h4 className="h2">NF: {volume.data().notaFiscal}</h4>
+
                   <br />
                   <Scanner onMatch={handleMatchRoute} />
+
                   <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                      Coloque o produto na gaiola para finalizar.
                   </div>

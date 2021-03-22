@@ -1,5 +1,9 @@
 export const getVolumeByBarcode = async (code, volumes) => {
-   const filtered = volumes.docs.filter((doc) => doc.data().codBarras === code);
+   if (!volumes || !volumes?.docs) {
+      throw Error('Nenhum volume encontrado.');
+   }
+
+   const filtered = volumes?.docs.filter((doc) => doc.data().codBarras === code);
    const volume = filtered[0];
 
    if (!volume?.data()) {
