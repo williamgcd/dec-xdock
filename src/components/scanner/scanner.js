@@ -12,7 +12,7 @@ export const Scanner = ({ onMatch }) => {
    const handleClick = async () => {
       try {
          const data = await BarcodeScanner.scan();
-         alert(`Honeywell: ${JSON.stringify(data)}`);
+         alert(`handleClick: ${JSON.stringify(data)}`);
          onMatch(data.text);
       } catch (_err) {
          setModal(true);

@@ -7,8 +7,8 @@ import { License } from './pages/license';
 
 export const ExtractRoutes = () => (
    <IonRouterOutlet animated={false}>
-      <Route exact path="/c" component={Index} />
-      <Route exact path="/c/:doc" component={Document} />
-      <Route exact path="/c/:doc/:license" component={License} />
+      <Route exact path="/e" component={Index} />
+      <Route exact path="/e/:doc" component={Document} />
+      <Route exact path="/e/:doc/:license" component={License} />
    </IonRouterOutlet>
 );

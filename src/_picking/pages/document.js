@@ -39,10 +39,8 @@ export const Document = () => {
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
    const handleMatchCode = (code) => {
-      if (!code) return;
-
       alert(`handleMatchCode: ${code}`);
-      console.log(volumes.docs);
+      if (!code) return;
 
       getVolumeByBarcode(code, volumes)
          .then(async (volume) => {
@@ -112,7 +110,7 @@ export const Document = () => {
          <IonToast {...toastProps} />
 
          <GenericContent>
-            <IonBackButton defaultHref={`/p/${doc}`} />
+            <IonBackButton defaultHref={`/p`} />
 
             <IonText>
                <h1 className="h1">Picking: {doc}</h1>
