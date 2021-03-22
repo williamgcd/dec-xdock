@@ -34,6 +34,7 @@ export const Documents = ({
 
    const formatted = Object.keys(status.options).map((s) => ({
       status: s,
+      statusFull: status.options[s],
       length: filterByStatus(s, documents).length,
    }));
 

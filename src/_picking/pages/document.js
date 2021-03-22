@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import { useParams } from 'react-router';
-import { IonAlert, IonPage, IonText, IonToast, useIonRouter } from '@ionic/react';
+import {
+   IonAlert,
+   IonBackButton,
+   IonPage,
+   IonText,
+   IonToast,
+   useIonRouter,
+} from '@ionic/react';
 
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 
@@ -87,6 +94,8 @@ export const Document = () => {
 
    return documentData?.status !== 'P' ? (
       <GenericPage>
+         <IonBackButton defaultHref="/" />
+
          <IonText>
             <h1 className="h1">Picking: {doc}</h1>
             <h2 className="h2">Status atual deste documento: {status.toUpperCase()}.</h2>
@@ -98,6 +107,8 @@ export const Document = () => {
       <IonPage className="PickingDocument">
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
+
+         <IonBackButton defaultHref={`/p`} />
 
          <GenericContent>
             <IonText>

@@ -31,7 +31,7 @@ import '@fontsource/nunito';
 import './theme/variables.css';
 import './theme/defaults.css';
 
-import { Home } from './home/home';
+import { Home } from './_home/home';
 import { Collect } from './_collect/collect';
 import { Picking } from './_picking/picking';
 
@@ -46,17 +46,14 @@ const App = () => (
       </IonRouterOutlet>
 
       <IonTabBar translucent slot="bottom">
-         <IonTabButton tab="h" href="/h">
-            <IonLabel>HOME</IonLabel>
-         </IonTabButton>
          <IonTabButton tab="c" href="/c">
-            <IonLabel>COLLECT</IonLabel>
+            <IonLabel>COLETA</IonLabel>
          </IonTabButton>
          <IonTabButton tab="p" href="/p">
             <IonLabel>PICKING</IonLabel>
          </IonTabButton>
          <IonTabButton tab="e" href="/e">
-            <IonLabel>EXTRACT</IonLabel>
+            <IonLabel>EXTRAÇÃO</IonLabel>
          </IonTabButton>
       </IonTabBar>
    </AppTabs>

@@ -1,4 +1,4 @@
-import { IonText } from '@ionic/react';
+import { IonBackButton, IonText } from '@ionic/react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 import { Documents } from '../../components/documents/documents';
@@ -22,9 +22,11 @@ export const Index = () => {
 
    return (
       <GenericPage>
+         <IonBackButton defaultHref="/" />
+
          <IonText>
             <h1 className="h1">Coleta</h1>
-            <h2 className="h2">Escolha a remessa que deseja iniciar abaixo:</h2>
+            <h1 className="h2">Escolha a remessa que deseja iniciar abaixo:</h1>
          </IonText>
 
          <Documents {...documentsProps} />

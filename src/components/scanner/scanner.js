@@ -11,7 +11,8 @@ export const Scanner = ({ onMatch }) => {
 
    const handleClick = async () => {
       try {
-         onMatch(await BarcodeScanner.scan());
+         const data = await BarcodeScanner.scan();
+         onMatch(data.text);
       } catch (_err) {
          setModal(true);
       }

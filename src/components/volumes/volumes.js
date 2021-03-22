@@ -30,11 +30,16 @@ export const Volumes = ({
    };
 
    const onChange = (e) => {
+      console.log(e.detail.value, segment);
+      if (e.detail.value === segment) {
+         return setSegment();
+      }
       return setSegment(e.detail.value);
    };
 
    const formatted = Object.keys(status.options).map((s) => ({
       status: s,
+      statusFull: status.options[s],
       length: filterByStatus(s, volumes).length,
    }));
 
