@@ -27,13 +27,11 @@ export const Scanner = ({ onMatch }) => {
    useEffect(() => {
       try {
          window.plugins.honeywell.listen((c) => {
-            alert(`Honeywell: ${c}`);
             return onMatch(c);
          });
          return () => window.plugins.honeywell.release();
       } catch (_err) {}
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
+   }, [onMatch]);
 
    return (
       <>
