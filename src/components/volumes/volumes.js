@@ -30,7 +30,6 @@ export const Volumes = ({
    };
 
    const onChange = (e) => {
-      console.log(e.detail.value, segment);
       if (e.detail.value === segment) {
          return setSegment();
       }
