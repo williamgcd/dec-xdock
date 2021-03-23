@@ -12,7 +12,6 @@ export const Scanner = ({ onMatch }) => {
    const handleClick = async () => {
       try {
          const data = await BarcodeScanner.scan();
-         alert(`handleClick: ${JSON.stringify(data)}`);
          onMatch(data.text);
       } catch (_err) {
          setModal(true);
@@ -27,11 +26,13 @@ export const Scanner = ({ onMatch }) => {
    useEffect(() => {
       try {
          window.plugins.honeywell.listen((c) => {
+            console.log(`Honeywell: ${c}`);
             onMatch(c);
          });
          return () => window.plugins.honeywell.release();
       } catch (_err) {}
-   }, [onMatch]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, []);
 
    return (
       <>

@@ -54,10 +54,16 @@ export const Document = () => {
       [doc, volumes]
    );
 
-   const handleMatchRoute = (code) => {
-      if (!code) return;
-      alert('Ohoy!');
-   };
+   const handleMatchRoute = useCallback(
+      (route) => {
+         if (!route) return;
+
+         db.doc(`picking/${doc}/volumes/${volume.id}`)
+            .set({ status: 'F' }, { merge: true })
+            .then(() => setVolume());
+      },
+      [doc, volume.id]
+   );
 
    const handleFinish = () => {
       db.doc(`picking/${doc}`)
