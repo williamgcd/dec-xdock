@@ -24,7 +24,7 @@ export const VolumeItem = ({ vol, routerPrefix }) => {
          return setModal(false);
       }
 
-      db.doc(`coleta/${doc}/volumes/${vol.id}`)
+      db.doc(`expedicao/${doc}/volumes/${vol.id}`)
          .set({ ...volume, placa: license }, { merge: true })
          .finally(() => setModal(false));
    };

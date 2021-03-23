@@ -12,17 +12,17 @@ import {
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 
 import { GenericContent } from '../../components/generic-page';
+import { GenericArea } from '../../components/generic-area';
 import { Scanner } from '../../components/scanner/scanner';
 import { Volumes } from '../../components/volumes/volumes';
+import { VolumesProgress } from '../../components/volumes/volumes-progress';
 
 import { DOCUMENT_STATUS } from '../../config/constants';
 import { db } from '../../config/firebase';
+import { getVolumeByBarcode } from '../../utils/getVolumeByBarcode';
 
 import { VolumeItem } from '../components/volume-item';
 import { EXPEDITION_VOLUME_STATUS } from '../expedition.constants';
-import { getVolumeByBarcode } from '../../utils/getVolumeByBarcode';
-import { GenericArea } from '../../components/generic-area';
-import { VolumesProgress } from '../../components/volumes/volumes-progress';
 
 export const License = () => {
    const history = useIonRouter();
