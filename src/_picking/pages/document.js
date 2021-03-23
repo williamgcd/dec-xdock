@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {
    IonAlert,
@@ -38,26 +38,42 @@ export const Document = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatchCode = (code, volumes) => {
-      if (!code) return;
+   const handleMatchCode = useCallback(
+      (code, volumes) => {
+         if (!code) return;
 
-      getVolumeByBarcode(code, volumes)
-         .then(async (volume) => {
-            await db
-               .doc(`picking/${doc}/volumes/${volume.id}`)
-               .set({ status: 'L' }, { merge: true });
-            setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
-         })
-         .catch((err) => setAlert(err));
-   };
+         getVolumeByBarcode(code, volumes)
+            .then(async (volume) => {
+               await db
+                  .doc(`picking/${doc}/volumes/${volume.id}`)
+                  .set({ status: 'L' }, { merge: true });
+               setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
+            })
+            .catch((err) => setAlert(err));
+      },
+      [doc]
+   );
 
-   const handleMatchRoute = (route, volume) => {
-      if (!route) return;
+   const handleMatchRoute = useCallback(
+      (route, volume) => {
+         if (!route) return;
 
-      db.doc(`picking/${doc}/volumes/${volume.id}`)
-         .set({ status: 'F' }, { merge: true })
-         .then(() => setVolume());
-   };
+         db.doc(`picking/${doc}/volumes/${volume.id}`)
+            .set({ status: 'F' }, { merge: true })
+            .then(() => setVolume());
+      },
+      [doc]
+   );
+
+   const handleMatch = useCallback(
+      (code) => {
+         if (volume && volume.id) {
+            return handleMatchRoute(code, volumes);
+         }
+         return handleMatchCode(code, volumes);
+      },
+      [handleMatchCode, handleMatchRoute, volume, volumes]
+   );
 
    const handleFinish = () => {
       db.doc(`picking/${doc}`)
@@ -65,6 +81,16 @@ export const Document = () => {
          .then(() => history.push('/p'))
          .catch((e) => setAlert(e));
    };
+
+   useEffect(() => {
+      try {
+         window.plugins.honeywell.listen((c) => {
+            console.log(`Honeywell from document: ${c}`);
+            handleMatch(c);
+         });
+         return () => window.plugins.honeywell.release();
+      } catch (_err) {}
+   }, [handleMatch]);
 
    const volumesProps = {
       item: (props) => <VolumeItem {...props} setVolume={setVolume} />,

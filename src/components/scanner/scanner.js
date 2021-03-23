@@ -23,16 +23,16 @@ export const Scanner = ({ onMatch }) => {
       setModal(false);
    };
 
-   useEffect(() => {
-      try {
-         window.plugins.honeywell.listen((c) => {
-            console.log(`Honeywell: ${c}`);
-            onMatch(c);
-         });
-         return () => window.plugins.honeywell.release();
-      } catch (_err) {}
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-   }, []);
+   // useEffect(() => {
+   //    try {
+   //       window.plugins.honeywell.listen((c) => {
+   //          console.log(`Honeywell: ${c}`);
+   //          onMatch(c);
+   //       });
+   //       return () => window.plugins.honeywell.release();
+   //    } catch (_err) {}
+   //    // eslint-disable-next-line react-hooks/exhaustive-deps
+   // }, []);
 
    return (
       <>
