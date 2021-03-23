@@ -1,7 +1,9 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import {
    IonApp,
+   IonContent,
    IonLabel,
+   IonPage,
    IonRouterOutlet,
    IonTabBar,
    IonTabButton,
@@ -35,36 +37,41 @@ import { Home } from './_home/home';
 import { Collect } from './_collect/collect';
 import { Expedition } from './_expedition/expedition';
 import { Picking } from './_picking/picking';
+import { AppContextProvider } from './app-context';
 
 const App = () => (
    <AppTabs>
-      <IonRouterOutlet animated={false}>
+      <Switch animated={false}>
          <Route path="/h" component={Home} />
          <Route path="/c" component={Collect} />
          <Route path="/p" component={Picking} />
          <Route path="/e" component={Expedition} />
          <Route exact path="/" component={() => <Redirect to="/h" />} />
-      </IonRouterOutlet>
-
-      <IonTabBar translucent slot="bottom">
-         <IonTabButton tab="c" href="/c">
-            <IonLabel>COLETA</IonLabel>
-         </IonTabButton>
-         <IonTabButton tab="p" href="/p">
-            <IonLabel>PICKING</IonLabel>
-         </IonTabButton>
-         <IonTabButton tab="e" href="/e">
-            <IonLabel>EXPEDIÇÃO</IonLabel>
-         </IonTabButton>
-      </IonTabBar>
+      </Switch>
    </AppTabs>
 );
 
 const AppTabs = (props) => (
    <IonApp>
-      <IonReactRouter>
-         <IonTabs>{props.children}</IonTabs>
-      </IonReactRouter>
+      <AppContextProvider>
+         <IonPage>
+            <IonContent>
+               <IonReactRouter>{props.children}</IonReactRouter>
+            </IonContent>
+
+            <IonTabBar>
+               <IonTabButton tab="c" href="/c">
+                  <IonLabel>COLETA</IonLabel>
+               </IonTabButton>
+               <IonTabButton tab="p" href="/p">
+                  <IonLabel>PICKING</IonLabel>
+               </IonTabButton>
+               <IonTabButton tab="e" href="/e">
+                  <IonLabel>EXPEDIÇÃO</IonLabel>
+               </IonTabButton>
+            </IonTabBar>
+         </IonPage>
+      </AppContextProvider>
    </IonApp>
 );
 

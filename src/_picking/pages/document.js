@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {
    IonAlert,
@@ -12,21 +12,23 @@ import {
 import { useCollection, useDocument } from 'react-firebase-hooks/firestore';
 
 import { GenericContent, GenericPage } from '../../components/generic-page';
+import { GenericArea } from '../../components/generic-area';
 import { Scanner } from '../../components/scanner/scanner';
 import { Volumes } from '../../components/volumes/volumes';
+import { VolumesProgress } from '../../components/volumes/volumes-progress';
 
+import { useAppContext } from '../../app-context';
 import { DOCUMENT_STATUS } from '../../config/constants';
 import { db } from '../../config/firebase';
+import { getVolumeByBarcode } from '../../utils/getVolumeByBarcode';
 
 import { VolumeItem } from '../components/volume-item';
 import { PICKING_VOLUME_STATUS } from '../picking.constants';
-import { getVolumeByBarcode } from '../../utils/getVolumeByBarcode';
-import { GenericArea } from '../../components/generic-area';
-import { VolumesProgress } from '../../components/volumes/volumes-progress';
 
 export const Document = () => {
    const history = useIonRouter();
    const { doc } = useParams();
+   const { code, setCode } = useAppContext();
 
    const [document] = useDocument(db.doc(`picking/${doc}`));
    const [volumes, loading] = useCollection(db.collection(`picking/${doc}/volumes`));
@@ -38,42 +40,30 @@ export const Document = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatchCode = useCallback(
-      (code, volumes) => {
-         if (!code) return;
+   const handleMatchCode = (code) => {
+      if (!code) return;
 
-         getVolumeByBarcode(code, volumes)
-            .then(async (volume) => {
-               await db
-                  .doc(`picking/${doc}/volumes/${volume.id}`)
-                  .set({ status: 'L' }, { merge: true });
-               setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
-            })
-            .catch((err) => setAlert(err));
-      },
-      [doc]
-   );
+      getVolumeByBarcode(code, volumes)
+         .then(async (volume) => {
+            await db
+               .doc(`picking/${doc}/volumes/${volume.id}`)
+               .set({ status: 'L' }, { merge: true });
+            setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
+         })
+         .catch((err) => setAlert(err));
+   };
 
-   const handleMatchRoute = useCallback(
-      (route, volume) => {
-         if (!route) return;
+   const handleMatchRoute = (route) => {
+      if (!route) return;
 
-         db.doc(`picking/${doc}/volumes/${volume.id}`)
-            .set({ status: 'F' }, { merge: true })
-            .then(() => setVolume());
-      },
-      [doc]
-   );
+      if (route !== volume.data().idRota) {
+         return setAlert('Esta não é a rota esperada');
+      }
 
-   const handleMatch = useCallback(
-      (code) => {
-         if (volume && volume.id) {
-            return handleMatchRoute(code, volumes);
-         }
-         return handleMatchCode(code, volumes);
-      },
-      [handleMatchCode, handleMatchRoute, volume, volumes]
-   );
+      db.doc(`picking/${doc}/volumes/${volume.id}`)
+         .set({ status: 'F' }, { merge: true })
+         .then(() => setVolume());
+   };
 
    const handleFinish = () => {
       db.doc(`picking/${doc}`)
@@ -83,14 +73,19 @@ export const Document = () => {
    };
 
    useEffect(() => {
-      try {
-         window.plugins.honeywell.listen((c) => {
-            console.log(`Honeywell from document: ${c}`);
-            handleMatch(c);
-         });
-         return () => window.plugins.honeywell.release();
-      } catch (_err) {}
-   }, [handleMatch]);
+      if (!code || !volumes) {
+         setCode('');
+         return;
+      }
+
+      if (volume && volume.id) {
+         handleMatchRoute(code);
+      } else {
+         handleMatchCode(code);
+      }
+      setCode('');
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [code]);
 
    const volumesProps = {
       item: (props) => <VolumeItem {...props} setVolume={setVolume} />,
@@ -153,7 +148,7 @@ export const Document = () => {
                   <h4 className="h2">NF: {volume.data().notaFiscal}</h4>
 
                   <br />
-                  <Scanner onMatch={(route) => handleMatchRoute(route, volume)} />
+                  <Scanner onMatch={handleMatchRoute} />
 
                   <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                      Coloque o produto na gaiola para finalizar.
@@ -161,7 +156,8 @@ export const Document = () => {
                </GenericArea>
             ) : (
                <GenericArea>
-                  <Scanner onMatch={(code) => handleMatchCode(code, volumes)} />
+                  <Scanner onMatch={handleMatchCode} />
+
                   <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                      Leia o código com o dispositivo ou clique no botão acima para
                      iniciar.

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import {
    IonAlert,
@@ -23,10 +23,12 @@ import { getVolumeByBarcode } from '../../utils/getVolumeByBarcode';
 
 import { VolumeItem } from '../components/volume-item';
 import { EXPEDITION_VOLUME_STATUS } from '../expedition.constants';
+import { useAppContext } from '../../app-context';
 
 export const License = () => {
    const history = useIonRouter();
    const { doc, license } = useParams();
+   const { code, setCode } = useAppContext();
 
    const [document] = useDocument(db.doc(`expedicao/${doc}`));
    const [volumes, loading] = useCollection(db.collection(`expedicao/${doc}/volumes`));
@@ -37,7 +39,7 @@ export const License = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatch = (code, volumes) => {
+   const handleMatch = (code) => {
       if (!code) return;
 
       getVolumeByBarcode(code, volumes)
@@ -57,6 +59,17 @@ export const License = () => {
          .then(() => history.push('/c'))
          .catch((e) => setAlert(e));
    };
+
+   useEffect(() => {
+      if (!code || !volumes) {
+         setCode('');
+         return;
+      }
+
+      handleMatch(code);
+      setCode('');
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [code]);
 
    const volumesProps = {
       item: VolumeItem,
@@ -103,7 +116,7 @@ export const License = () => {
             </IonText>
 
             <GenericArea>
-               <Scanner onMatch={(code) => handleMatch(code, volumes)} />
+               <Scanner onMatch={handleMatch} />
                <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                   Leia o código com o dispositivo ou clique no botão acima para iniciar.
                </div>
