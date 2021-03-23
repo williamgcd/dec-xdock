@@ -28,7 +28,7 @@ export const Scanner = ({ onMatch }) => {
       try {
          window.plugins.honeywell.listen((c) => {
             alert(`Honeywell: ${c}`);
-            onMatch(c);
+            return onMatch(c);
          });
          return () => window.plugins.honeywell.release();
       } catch (_err) {}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useParams } from 'react-router';
 import {
    IonAlert,
@@ -38,19 +38,23 @@ export const Document = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatchCode = (code) => {
-      alert(`handleMatchCode: ${code}`);
-      if (!code) return;
+   const handleMatchCode = useCallback(
+      (code) => {
+         if (!code) return;
 
-      getVolumeByBarcode(code, volumes)
-         .then(async (volume) => {
-            await db
-               .doc(`picking/${doc}/volumes/${volume.id}`)
-               .set({ status: 'L' }, { merge: true });
-            setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
-         })
-         .catch((err) => setAlert(err));
-   };
+         console.log('handleMatchCode', code, volumes);
+
+         getVolumeByBarcode(code, volumes)
+            .then(async (volume) => {
+               await db
+                  .doc(`picking/${doc}/volumes/${volume.id}`)
+                  .set({ status: 'L' }, { merge: true });
+               setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
+            })
+            .catch((err) => setAlert(err));
+      },
+      [doc, volumes]
+   );
 
    const handleMatchRoute = (code) => {
       if (!code) return;

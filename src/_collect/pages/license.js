@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useParams } from 'react-router';
 import {
    IonAlert,
@@ -37,19 +37,22 @@ export const License = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatch = (code) => {
-      if (!code) return;
+   const handleMatch = useCallback(
+      (code) => {
+         if (!code) return;
 
-      getVolumeByBarcode(code, volumes)
-         .then((volume) => {
-            db.doc(`coleta/${doc}/volumes/${volume.id}`).set(
-               { status: 'F' },
-               { merge: true }
-            );
-            setToast(`O volume ${volume.data().codBarras} foi atualizado`);
-         })
-         .catch((err) => setAlert(err));
-   };
+         getVolumeByBarcode(code, volumes)
+            .then((volume) => {
+               db.doc(`coleta/${doc}/volumes/${volume.id}`).set(
+                  { status: 'F' },
+                  { merge: true }
+               );
+               setToast(`O volume ${volume.data().codBarras} foi atualizado`);
+            })
+            .catch((err) => setAlert(err));
+      },
+      [doc, volumes]
+   );
 
    const handleFinish = () => {
       db.doc(`coleta/${doc}`)
