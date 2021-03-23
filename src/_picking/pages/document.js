@@ -38,32 +38,26 @@ export const Document = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatchCode = useCallback(
-      (code) => {
-         if (!code) return;
+   const handleMatchCode = (code, volumes) => {
+      if (!code) return;
 
-         getVolumeByBarcode(code, volumes)
-            .then(async (volume) => {
-               await db
-                  .doc(`picking/${doc}/volumes/${volume.id}`)
-                  .set({ status: 'L' }, { merge: true });
-               setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
-            })
-            .catch((err) => setAlert(err));
-      },
-      [doc, volumes]
-   );
+      getVolumeByBarcode(code, volumes)
+         .then(async (volume) => {
+            await db
+               .doc(`picking/${doc}/volumes/${volume.id}`)
+               .set({ status: 'L' }, { merge: true });
+            setVolume(await db.doc(`picking/${doc}/volumes/${volume.id}`).get());
+         })
+         .catch((err) => setAlert(err));
+   };
 
-   const handleMatchRoute = useCallback(
-      (route) => {
-         if (!route) return;
+   const handleMatchRoute = (route, volume) => {
+      if (!route) return;
 
-         db.doc(`picking/${doc}/volumes/${volume.id}`)
-            .set({ status: 'F' }, { merge: true })
-            .then(() => setVolume());
-      },
-      [doc, volume.id]
-   );
+      db.doc(`picking/${doc}/volumes/${volume.id}`)
+         .set({ status: 'F' }, { merge: true })
+         .then(() => setVolume());
+   };
 
    const handleFinish = () => {
       db.doc(`picking/${doc}`)
@@ -133,7 +127,7 @@ export const Document = () => {
                   <h4 className="h2">NF: {volume.data().notaFiscal}</h4>
 
                   <br />
-                  <Scanner onMatch={handleMatchRoute} />
+                  <Scanner onMatch={(route) => handleMatchRoute(route, volume)} />
 
                   <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                      Coloque o produto na gaiola para finalizar.
@@ -141,7 +135,7 @@ export const Document = () => {
                </GenericArea>
             ) : (
                <GenericArea>
-                  <Scanner onMatch={handleMatchCode} />
+                  <Scanner onMatch={(code) => handleMatchCode(code, volumes)} />
                   <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                      Leia o código com o dispositivo ou clique no botão acima para
                      iniciar.

@@ -37,22 +37,19 @@ export const License = () => {
    const documentData = document?.data();
    const status = DOCUMENT_STATUS[documentData?.status] || 'Indefinido';
 
-   const handleMatch = useCallback(
-      (code) => {
-         if (!code) return;
+   const handleMatch = (code, volumes) => {
+      if (!code) return;
 
-         getVolumeByBarcode(code, volumes)
-            .then((volume) => {
-               db.doc(`expedicao/${doc}/volumes/${volume.id}`).set(
-                  { status: 'F' },
-                  { merge: true }
-               );
-               setToast(`O volume ${volume.data().codBarras} foi atualizado`);
-            })
-            .catch((err) => setAlert(err));
-      },
-      [doc, volumes]
-   );
+      getVolumeByBarcode(code, volumes)
+         .then((volume) => {
+            db.doc(`expedicao/${doc}/volumes/${volume.id}`).set(
+               { status: 'F' },
+               { merge: true }
+            );
+            setToast(`O volume ${volume.data().codBarras} foi atualizado`);
+         })
+         .catch((err) => setAlert(err));
+   };
 
    const handleFinish = () => {
       db.doc(`expedicao/${doc}`)
@@ -106,7 +103,7 @@ export const License = () => {
             </IonText>
 
             <GenericArea>
-               <Scanner onMatch={handleMatch} />
+               <Scanner onMatch={(code) => handleMatch(code, volumes)} />
                <div style={{ marginTop: '1.5rem', padding: ' 0 2rem' }}>
                   Leia o código com o dispositivo ou clique no botão acima para iniciar.
                </div>
