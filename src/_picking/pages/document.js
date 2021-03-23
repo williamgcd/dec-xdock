@@ -42,7 +42,7 @@ export const Document = () => {
       (code) => {
          if (!code) return;
 
-         console.log('handleMatchCode', code, volumes);
+         console.log(`handleMatch: ${code} ${volumes?.docs?.length}`);
 
          getVolumeByBarcode(code, volumes)
             .then(async (volume) => {
@@ -113,7 +113,7 @@ export const Document = () => {
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
 
-         <GenericContent>
+         <GenericContent loading={loading}>
             <IonBackButton defaultHref={`/p`} />
 
             <IonText>

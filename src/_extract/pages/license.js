@@ -95,7 +95,7 @@ export const License = () => {
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
 
-         <GenericContent>
+         <GenericContent loading={loading}>
             <IonBackButton defaultHref={`/c/${doc}`} />
 
             <IonText>

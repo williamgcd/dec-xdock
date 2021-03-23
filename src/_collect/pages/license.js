@@ -41,6 +41,8 @@ export const License = () => {
       (code) => {
          if (!code) return;
 
+         console.log(`handleMatch: ${code} ${volumes?.docs?.length}`);
+
          getVolumeByBarcode(code, volumes)
             .then((volume) => {
                db.doc(`coleta/${doc}/volumes/${volume.id}`).set(
@@ -95,7 +97,7 @@ export const License = () => {
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
 
-         <GenericContent>
+         <GenericContent loading={loading}>
             <IonBackButton defaultHref={`/c/${doc}`} />
 
             <IonText>
