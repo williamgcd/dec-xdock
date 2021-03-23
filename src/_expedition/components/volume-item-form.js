@@ -1,7 +1,7 @@
 import { IonSelect, IonSelectOption } from '@ionic/react';
 import { useState } from 'react';
 import { Button } from '../../components/button';
-import { EXTRACT_VOLUME_STATUS } from '../extract.constants';
+import { EXPEDITION_VOLUME_STATUS } from '../expedition.constants';
 
 import * as s from './volume-item-form.styles';
 
@@ -28,9 +28,9 @@ export const VolumeItemForm = ({ volume, onSubmit }) => {
             placeholder="Selecione um status"
             onIonChange={(ev) => setState((o) => ({ ...o, status: ev.detail.value }))}
          >
-            {Object.keys(EXTRACT_VOLUME_STATUS).map((s) => (
+            {Object.keys(EXPEDITION_VOLUME_STATUS).map((s) => (
                <IonSelectOption key={s} value={s}>
-                  {EXTRACT_VOLUME_STATUS[s]}
+                  {EXPEDITION_VOLUME_STATUS[s]}
                </IonSelectOption>
             ))}
          </s.VolumeItemFormSelect>

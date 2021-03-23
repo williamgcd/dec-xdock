@@ -19,7 +19,7 @@ import { DOCUMENT_STATUS } from '../../config/constants';
 import { db } from '../../config/firebase';
 
 import { VolumeItem } from '../components/volume-item';
-import { COLLECT_VOLUME_STATUS } from '../collect.constants';
+import { EXPEDITION_VOLUME_STATUS } from '../expedition.constants';
 import { getVolumeByBarcode } from '../../utils/getVolumeByBarcode';
 import { GenericArea } from '../../components/generic-area';
 import { VolumesProgress } from '../../components/volumes/volumes-progress';
@@ -64,9 +64,9 @@ export const License = () => {
    const volumesProps = {
       item: VolumeItem,
       loading: !!loading,
-      routerPrefix: `/c/${doc}`,
+      routerPrefix: `/e/${doc}`,
       status: {
-         options: COLLECT_VOLUME_STATUS,
+         options: EXPEDITION_VOLUME_STATUS,
          initial: '',
       },
       volumes: volumes?.docs || [],
@@ -96,7 +96,7 @@ export const License = () => {
          <IonToast {...toastProps} />
 
          <GenericContent loading={loading}>
-            <IonBackButton defaultHref={`/c/${doc}`} />
+            <IonBackButton defaultHref={`/e/${doc}`} />
 
             <IonText>
                <h1 className="h1">Veículo: {license}</h1>

@@ -13,7 +13,7 @@ export const Index = () => {
    const documentsProps = {
       documents: collection?.docs,
       loading: !!loading,
-      routerPrefix: '/c',
+      routerPrefix: '/e',
       status: {
          options: DOCUMENT_STATUS,
          initial: 'P',

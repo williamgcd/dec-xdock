@@ -14,7 +14,7 @@ export const Document = () => {
    const history = useIonRouter();
    const { doc } = useParams();
 
-   const [document] = useDocument(db.doc(`coleta/${doc}`));
+   const [document] = useDocument(db.doc(`expedicao/${doc}`));
 
    const [alert, setAlert] = useState();
    const [tempr, setTempr] = useState();
