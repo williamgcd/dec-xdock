@@ -8,7 +8,7 @@ import { DOCUMENT_STATUS } from '../../config/constants';
 import { db } from '../../config/firebase';
 
 export const Index = () => {
-   const [collection, loading] = useCollection(db.collection('coleta'));
+   const [collection, loading] = useCollection(db.collection('expedicao'));
 
    const documentsProps = {
       documents: collection?.docs,
@@ -25,7 +25,7 @@ export const Index = () => {
          <IonBackButton defaultHref="/" />
 
          <IonText>
-            <h1 className="h1">Coleta</h1>
+            <h1 className="h1">Expedição</h1>
             <h1 className="h2">Escolha a remessa que deseja iniciar abaixo:</h1>
          </IonText>
 

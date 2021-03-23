@@ -5,7 +5,7 @@ import { Index } from './pages/index';
 import { Document } from './pages/document';
 import { License } from './pages/license';
 
-export const ExtractRoutes = () => (
+export const ExpeditionRoutes = () => (
    <IonRouterOutlet animated={false}>
       <Route exact path="/e" component={Index} />
       <Route exact path="/e/:doc" component={Document} />

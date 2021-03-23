@@ -28,8 +28,8 @@ export const License = () => {
    const history = useIonRouter();
    const { doc, license } = useParams();
 
-   const [document] = useDocument(db.doc(`coleta/${doc}`));
-   const [volumes, loading] = useCollection(db.collection(`coleta/${doc}/volumes`));
+   const [document] = useDocument(db.doc(`expedicao/${doc}`));
+   const [volumes, loading] = useCollection(db.collection(`expedicao/${doc}/volumes`));
 
    const [alert, setAlert] = useState();
    const [toast, setToast] = useState();
@@ -43,7 +43,7 @@ export const License = () => {
 
          getVolumeByBarcode(code, volumes)
             .then((volume) => {
-               db.doc(`coleta/${doc}/volumes/${volume.id}`).set(
+               db.doc(`expedicao/${doc}/volumes/${volume.id}`).set(
                   { status: 'F' },
                   { merge: true }
                );
@@ -55,7 +55,7 @@ export const License = () => {
    );
 
    const handleFinish = () => {
-      db.doc(`coleta/${doc}`)
+      db.doc(`expedicao/${doc}`)
          .set({ status: 'F', data: new Date().toISOString() }, { merge: true })
          .then(() => history.push('/c'))
          .catch((e) => setAlert(e));
@@ -91,7 +91,7 @@ export const License = () => {
    };
 
    return (
-      <IonPage className="CollectDocument">
+      <IonPage className="ExpeditionDocument">
          <IonAlert {...alertProps} />
          <IonToast {...toastProps} />
 

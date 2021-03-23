@@ -23,11 +23,11 @@ export const Document = () => {
    const status = VOLUME_STATUS[documentData?.status] || 'Indefinido';
 
    const onReplace = () => {
-      db.doc(`coleta/${doc}`).set(
+      db.doc(`expedicao/${doc}`).set(
          { placa: tempr, dataIni: new Date().toISOString(), status: 'L' },
          { merge: true }
       );
-      history.push(`/c/${doc}/${tempr}`);
+      history.push(`/e/${doc}/${tempr}`);
    };
 
    const onSubmit = (license) => {
@@ -41,11 +41,11 @@ export const Document = () => {
          return setAlert('Este documento já foi inicializado com outra placa.');
       }
 
-      db.doc(`coleta/${doc}`).set(
+      db.doc(`expedicao/${doc}`).set(
          { placa: license, dataIni: new Date().toISOString(), status: 'L' },
          { merge: true }
       );
-      history.push(`/c/${doc}/${license}`);
+      history.push(`/e/${doc}/${license}`);
       return;
    };
 
@@ -67,13 +67,13 @@ export const Document = () => {
    };
 
    return (
-      <GenericPage className="CollectDocument">
+      <GenericPage className="ExpeditionDocument">
          <IonAlert {...alertProps} />
 
-         <IonBackButton defaultHref={`/c`} />
+         <IonBackButton defaultHref={`/e`} />
 
          <IonText>
-            <h1 className="h1">Coleta</h1>
+            <h1 className="h1">Expedição</h1>
             <h2 className="h2">Status atual deste documento: {status.toUpperCase()}.</h2>
          </IonText>
 

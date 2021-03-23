@@ -27,7 +27,7 @@ export const Scanner = ({ onMatch }) => {
    useEffect(() => {
       try {
          window.plugins.honeywell.listen((c) => {
-            return onMatch(c);
+            onMatch(c);
          });
          return () => window.plugins.honeywell.release();
       } catch (_err) {}

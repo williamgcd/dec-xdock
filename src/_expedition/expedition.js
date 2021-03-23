@@ -1,11 +1,11 @@
 import { IonContent, IonPage } from '@ionic/react';
 
-import { ExtractRoutes } from './extract-routes';
+import { ExpeditionRoutes } from './expedition-routes';
 
-export const Extract = () => (
+export const Expedition = () => (
    <IonPage>
       <IonContent>
-         <ExtractRoutes />
+         <ExpeditionRoutes />
       </IonContent>
    </IonPage>
 );

@@ -33,6 +33,7 @@ import './theme/defaults.css';
 
 import { Home } from './_home/home';
 import { Collect } from './_collect/collect';
+import { Expedition } from './_expedition/expedition';
 import { Picking } from './_picking/picking';
 
 const App = () => (
@@ -41,7 +42,7 @@ const App = () => (
          <Route path="/h" component={Home} />
          <Route path="/c" component={Collect} />
          <Route path="/p" component={Picking} />
-         <Route path="/e" component={() => <>Extract</>} />
+         <Route path="/e" component={Expedition} />
          <Route exact path="/" component={() => <Redirect to="/h" />} />
       </IonRouterOutlet>
 
@@ -53,7 +54,7 @@ const App = () => (
             <IonLabel>PICKING</IonLabel>
          </IonTabButton>
          <IonTabButton tab="e" href="/e">
-            <IonLabel>EXTRAÇÃO</IonLabel>
+            <IonLabel>EXPEDIÇÃO</IonLabel>
          </IonTabButton>
       </IonTabBar>
    </AppTabs>

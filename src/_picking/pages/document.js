@@ -42,8 +42,6 @@ export const Document = () => {
       (code) => {
          if (!code) return;
 
-         console.log(`handleMatch: ${code} ${volumes?.docs?.length}`);
-
          getVolumeByBarcode(code, volumes)
             .then(async (volume) => {
                await db
