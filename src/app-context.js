@@ -16,19 +16,19 @@ export const useAppContext = () => {
 
    useEffect(() => {
       try {
-         window.plugins.honeywell.claim(() => {
-            window.plugins.honeywell.listen(
-               (c) => {
-                  console.log(`Honeywell: ${c}`);
-                  setCode(c);
-               },
-               (err) => {
-                  console.log(`Honeywell Error: ${err}`);
-               }
-            );
-         });
+         window.plugins.honeywell.listen(
+            (c) => {
+               console.log(`Honeywell: ${c}`);
+               setCode(c);
+            },
+            (err) => {
+               console.log(`Honeywell Error: ${err}`);
+            }
+         );
          return () => window.plugins.honeywell.release();
-      } catch (_err) {}
+      } catch (_err) {
+         console.log(`Honeywell not found.`);
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
