@@ -6,19 +6,6 @@ export const AppContextProvider = (props) => {
    const [code, setCode] = useState('');
    return (
       <AppContext.Provider value={{ code, setCode }}>
-         {/* <button
-            onClick={() => setCode('200446495')}
-            style={{
-               background: 'red',
-               bottom: 0,
-               padding: '1rem',
-               position: 'absolute',
-               right: 0,
-               zIndex: 999999,
-            }}
-         >
-            {code || 'SET CODE'}
-         </button> */}
          {props.children}
       </AppContext.Provider>
    );
@@ -29,9 +16,16 @@ export const useAppContext = () => {
 
    useEffect(() => {
       try {
-         window.plugins.honeywell.listen((c) => {
-            console.log(`Honeywell: ${c}`);
-            setCode(c);
+         window.plugins.honeywell.claim(() => {
+            window.plugins.honeywell.listen(
+               (c) => {
+                  console.log(`Honeywell: ${c}`);
+                  setCode(c);
+               },
+               (err) => {
+                  console.log(`Honeywell Error: ${err}`);
+               }
+            );
          });
          return () => window.plugins.honeywell.release();
       } catch (_err) {}
