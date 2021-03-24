@@ -56,7 +56,7 @@ export const License = () => {
    const handleFinish = () => {
       db.doc(`expedicao/${doc}`)
          .set({ status: 'F', data: new Date().toISOString() }, { merge: true })
-         .then(() => history.push('/c'))
+         .then(() => history.push('/e'))
          .catch((e) => setAlert(e));
    };
 
